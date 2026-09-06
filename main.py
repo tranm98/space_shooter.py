@@ -6,6 +6,8 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("First Game!")
 
 BLUE = (13, 43, 69)
+BLACK = (0, 0, 0)
+BORDER = pygame.Rect(WIDTH/2 - 5, 0, 10, HEIGHT)
 
 FPS = 60
 VEL = 5
@@ -18,10 +20,30 @@ RED_SPACESHIP =pygame.transform.rotate(pygame.transform.scale(RED_SPACESHIP_IMAG
 
 def draw_window(red, yellow):
     WIN.fill(BLUE)
+    pygame.draw.rect(WIN, BLACK, BORDER)
     WIN.blit(YELLOW_SPACESHIP, (yellow.x, yellow.y))
     WIN.blit(RED_SPACESHIP, (red.x, red.y))
     pygame.display.update()
-    
+ 
+def yellow_handle_movement(keys_pressed, yellow):
+        if keys_pressed[pygame.K_a]: #LEFT KEY
+            yellow.x -= VEL    
+        if keys_pressed[pygame.K_d]: #RGHT KEY
+            yellow.x += VEL
+        if keys_pressed[pygame.K_w]: #UP
+            yellow.y -= VEL
+        if keys_pressed[pygame.K_s]: #DOWN      
+            yellow.y += VEL
+def red_handle_movement(keys_pressed, red):
+        if keys_pressed[pygame.K_LEFT]: #LEFT KEY
+            red.x -= VEL    
+        if keys_pressed[pygame.K_RIGHT]: #RGHT KEY
+            red.x += VEL
+        if keys_pressed[pygame.K_UP]: #UP
+            red.y -= VEL
+        if keys_pressed[pygame.K_DOWN]: #DOWN     
+            red.y += VEL
+ 
 
 def main():
     #right
@@ -37,14 +59,9 @@ def main():
             if event.type == pygame.QUIT:
                 run = False  
         keys_pressed = pygame.key.get_pressed()
-        if keys_pressed[pygame.K_a]: #LEFT KEY
-            yellow.x -= VEL    
-        if keys_pressed[pygame.K_d]: #RGHT KEY
-            yellow.x += VEL
-        if keys_pressed[pygame.K_w]: #UP
-            yellow.y -= VEL
-        if keys_pressed[pygame.K_s]: #DOWN     
-            yellow.y += VEL
+        yellow_handle_movement(keys_pressed, yellow)
+        red_handle_movement(keys_pressed, red)
+
         draw_window(red, yellow)
         
     pygame.quit()
